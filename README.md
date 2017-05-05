@@ -7,6 +7,7 @@ wikitaxa
 [![Build Status](https://api.travis-ci.org/ropensci/wikitaxa.svg?branch=master)](https://travis-ci.org/ropensci/wikitaxa)
 [![codecov](https://codecov.io/gh/ropensci/wikitaxa/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/wikitaxa)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/wikitaxa)](https://github.com/metacran/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/wikitaxa)](https://cran.r-project.org/package=wikitaxa)
 
 `wikitaxa` - taxonomy data from Wikipedia/Wikidata/Wikispecies
 
@@ -66,16 +67,7 @@ library('wikitaxa')
 
 
 ```r
-res <- wt_data("Poa annua")
-res$descriptions
-#>   language                              value
-#> 1       de Art der Gattung Rispengräser (Poa)
-#> 2       fa                      گونه‌ای از چبر
-#> 3       en                   species of plant
-#> 4       bg                       вид растение
-#> 5       nl plantensoort uit de grassenfamilie
-#> 6       ar                    نوع من النباتات
-#> 7       hy                     բույսերի տեսակ
+wt_data("Poa annua")
 ```
 
 Get a Wikidata ID
@@ -97,12 +89,12 @@ lower level
 pg <- wt_wiki_page("https://en.wikipedia.org/wiki/Malus_domestica")
 res <- wt_wiki_page_parse(pg)
 res$iwlinks
-#> [1] "https://en.wiktionary.org/wiki/apple"
-#> [2] "https://commons.wikimedia.org/wiki/Special:Search/Apple"
-#> [3] "https://en.wikiquote.org/wiki/Apples"
+#> [1] "https://en.wiktionary.org/wiki/apple"                                  
+#> [2] "https://commons.wikimedia.org/wiki/Special:Search/Apple"               
+#> [3] "https://en.wikiquote.org/wiki/Apples"                                  
 #> [4] "https://en.wikisource.org/wiki/1911_Encyclop%C3%A6dia_Britannica/Apple"
-#> [5] "https://en.wikibooks.org/wiki/Apples"
-#> [6] "https://species.wikimedia.org/wiki/Malus_domestica"
+#> [5] "https://en.wikibooks.org/wiki/Apples"                                  
+#> [6] "https://species.wikimedia.org/wiki/Malus_domestica"                    
 #> [7] "https://commons.wikimedia.org/wiki/Category:Apple_cultivars"
 ```
 
@@ -133,6 +125,19 @@ res$classification
 #> 9 binomial Malus pumila
 ```
 
+choose a wikipedia language
+
+
+```r
+# French
+wt_wikipedia(name = "Malus domestica", wiki = "fr")
+# Slovak
+wt_wikipedia(name = "Malus domestica", wiki = "sk")
+# Vietnamese
+wt_wikipedia(name = "Malus domestica", wiki = "vi")
+```
+
+
 ## wikicommons
 
 lower level
@@ -145,23 +150,23 @@ res$common_names[1:3]
 #> [[1]]
 #> [[1]]$name
 #> [1] "okra"
-#>
+#> 
 #> [[1]]$language
 #> [1] "en"
-#>
-#>
+#> 
+#> 
 #> [[2]]
 #> [[2]]$name
 #> [1] "مسكي"
-#>
+#> 
 #> [[2]]$language
 #> [1] "ar"
-#>
-#>
+#> 
+#> 
 #> [[3]]
 #> [[3]]$name
 #> [1] "Abelmoş"
-#>
+#> 
 #> [[3]]$language
 #> [1] "az"
 ```
@@ -226,23 +231,23 @@ res$common_names[1:3]
 #> [[1]]
 #> [[1]]$name
 #> [1] "Ябълка"
-#>
+#> 
 #> [[1]]$language
 #> [1] "български"
-#>
-#>
+#> 
+#> 
 #> [[2]]
 #> [[2]]$name
 #> [1] "Poma, pomera"
-#>
+#> 
 #> [[2]]$language
 #> [1] "català"
-#>
-#>
+#> 
+#> 
 #> [[3]]
 #> [[3]]$name
 #> [1] "Apfel"
-#>
+#> 
 #> [[3]]$language
 #> [1] "Deutsch"
 ```
