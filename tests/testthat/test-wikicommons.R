@@ -47,6 +47,12 @@ test_that("wt_wikicommons fails well", {
     wt_wikicommons("Pinus", "asdf"),
     "utf8 must be of class logical"
   )
+
+  # when on page found, returns list()
+  expect_equal(
+    wt_wikicommons("Category:Ursus"),
+    list()
+  )
 })
 
 context("wt_wikicommons_parse")
@@ -77,7 +83,7 @@ test_that("wt_wikicommons_search works", {
   expect_is(aa$query, "list")
   expect_is(aa$query$searchinfo, "list")
   expect_is(aa$query$search, "data.frame")
-  expect_named(aa$query$search, c('ns', 'title', 'size', 'wordcount',
+  expect_named(aa$query$search, c('ns', 'title', 'pageid', 'size', 'wordcount',
                                   'snippet', 'timestamp'))
 
   # no results when not found

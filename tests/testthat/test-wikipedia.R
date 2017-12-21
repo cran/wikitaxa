@@ -23,7 +23,6 @@ test_that("wt_wikipedia returns non-empty results", {
   expect_is(bb$langlinks, "data.frame")
   expect_is(bb$externallinks, "character")
   expect_is(bb$common_names, "data.frame")
-  expect_named(bb$common_names, c('name', 'language'))
   expect_is(bb$classification, "data.frame")
   expect_named(bb$classification, c('rank', 'name'))
 })
@@ -83,7 +82,7 @@ test_that("wt_wikipedia_search works", {
   expect_is(aa$query, "list")
   expect_is(aa$query$searchinfo, "list")
   expect_is(aa$query$search, "data.frame")
-  expect_named(aa$query$search, c('ns', 'title', 'size', 'wordcount',
+  expect_named(aa$query$search, c('ns', 'title', 'pageid', 'size', 'wordcount',
                                   'snippet', 'timestamp'))
 
   # no results when not found
