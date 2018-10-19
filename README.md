@@ -3,13 +3,18 @@ wikitaxa
 
 
 
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![cran checks](https://cranchecks.info/badges/worst/wikitaxa)](https://cranchecks.info/pkgs/wikitaxa)
 [![Build Status](https://api.travis-ci.org/ropensci/wikitaxa.svg?branch=master)](https://travis-ci.org/ropensci/wikitaxa)
 [![codecov](https://codecov.io/gh/ropensci/wikitaxa/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/wikitaxa)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/wikitaxa)](https://github.com/metacran/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/wikitaxa)](https://cran.r-project.org/package=wikitaxa)
 
 `wikitaxa` - taxonomy data from Wikipedia/Wikidata/Wikispecies
+
+Get started below and with the vignette: <https://cran.r-project.org/package=wikitaxa>
+
+See also the taxize book: <https://ropensci.github.io/taxize-book/>
 
 
 ### Low level API
@@ -89,13 +94,12 @@ lower level
 pg <- wt_wiki_page("https://en.wikipedia.org/wiki/Malus_domestica")
 res <- wt_wiki_page_parse(pg)
 res$iwlinks
-#> [1] "https://en.wiktionary.org/wiki/apple"                                  
-#> [2] "https://commons.wikimedia.org/wiki/Special:Search/Apple"               
-#> [3] "https://en.wikiquote.org/wiki/Apples"                                  
-#> [4] "https://en.wikisource.org/wiki/1911_Encyclop%C3%A6dia_Britannica/Apple"
-#> [5] "https://en.wikibooks.org/wiki/Apples"                                  
-#> [6] "https://species.wikimedia.org/wiki/Malus_domestica"                    
-#> [7] "https://commons.wikimedia.org/wiki/Category:Apple_cultivars"
+#> [1] "https://commons.wikimedia.org/wiki/Category:apples"         
+#> [2] "https://commons.wikimedia.org/wiki/Category:Apple_cultivars"
+#> [3] "https://www.wikidata.org/wiki/Q158657"                      
+#> [4] "https://www.wikidata.org/wiki/Q18674606"                    
+#> [5] "https://species.wikimedia.org/wiki/Malus_pumila"            
+#> [6] "https://species.wikimedia.org/wiki/Malus_domestica"
 ```
 
 higher level
@@ -105,16 +109,16 @@ higher level
 res <- wt_wikipedia("Malus domestica")
 res$common_names
 #> # A tibble: 1 x 2
-#>    name language
-#>   <chr>    <chr>
-#> 1 Apple       en
+#>   name  language
+#>   <chr> <chr>   
+#> 1 Apple en
 res$classification
 #> # A tibble: 3 x 2
-#>         rank         name
-#>        <chr>        <chr>
-#> 1 plainlinks             
-#> 2    species    M. pumila
-#> 3   binomial Malus pumila
+#>   rank       name        
+#>   <chr>      <chr>       
+#> 1 plainlinks ""          
+#> 2 species    M. pumila   
+#> 3 binomial   Malus pumila
 ```
 
 choose a wikipedia language
@@ -170,46 +174,46 @@ higher level
 res <- wt_wikicommons("Abelmoschus")
 res$classification
 #> # A tibble: 15 x 2
-#>          rank           name
-#>         <chr>          <chr>
-#>  1     Domain      Eukaryota
-#>  2   unranked Archaeplastida
-#>  3     Regnum        Plantae
-#>  4     Cladus    angiosperms
-#>  5     Cladus       eudicots
-#>  6     Cladus  core eudicots
-#>  7     Cladus    superrosids
-#>  8     Cladus         rosids
-#>  9     Cladus    eurosids II
-#> 10       Ordo       Malvales
-#> 11    Familia      Malvaceae
-#> 12 Subfamilia     Malvoideae
-#> 13     Tribus      Hibisceae
-#> 14      Genus    Abelmoschus
-#> 15  Authority  Medik. (1787)
+#>    rank       name            
+#>    <chr>      <chr>           
+#>  1 Domain     Eukaryota       
+#>  2 unranked   Archaeplastida  
+#>  3 Regnum     Plantae         
+#>  4 Cladus     angiosperms     
+#>  5 Cladus     eudicots        
+#>  6 Cladus     core eudicots   
+#>  7 Cladus     superrosids     
+#>  8 Cladus     rosids          
+#>  9 Cladus     eurosids II     
+#> 10 Ordo       Malvales        
+#> 11 Familia    Malvaceae       
+#> 12 Subfamilia Malvoideae      
+#> 13 Tribus     Hibisceae       
+#> 14 Genus      Abelmoschus     
+#> 15 Authority  " Medik. (1787)"
 res$common_names
 #> # A tibble: 19 x 2
-#>                name language
-#>               <chr>    <chr>
-#>  1             okra       en
-#>  2             مسكي       ar
-#>  3          Abelmoş       az
-#>  4        Ibiškovec       cs
-#>  5     Bisameibisch       de
-#>  6            Okrat       fi
-#>  7        Abelmosco       gl
-#>  8        Abelmošus       hr
-#>  9           Ybiškė       lt
-#> 10   "അബെ\u0d7dമോസ്കസ്"       ml
-#> 11         Абельмош      mrj
-#> 12 Abelmoskusslekta       nn
-#> 13          Piżmian       pl
-#> 14         Абельмош       ru
-#> 15             موري       sd
-#> 16      Okrasläktet       sv
-#> 17         Абельмош      udm
-#> 18    Chi Vông vang       vi
-#> 19           黄葵属       zh
+#>    name             language
+#>    <chr>            <chr>   
+#>  1 okra             en      
+#>  2 مسكي             ar      
+#>  3 Abelmoş          az      
+#>  4 Ibiškovec        cs      
+#>  5 Bisameibisch     de      
+#>  6 Okrat            fi      
+#>  7 Abelmosco        gl      
+#>  8 Abelmošus        hr      
+#>  9 Ybiškė           lt      
+#> 10 അബെൽമോസ്കസ്        ml      
+#> 11 Абельмош         mrj     
+#> 12 Abelmoskusslekta nn      
+#> 13 Piżmian          pl      
+#> 14 Абельмош         ru      
+#> 15 موري             sd      
+#> 16 Okrasläktet      sv      
+#> 17 Абельмош         udm     
+#> 18 Chi Vông vang    vi      
+#> 19 黄葵属           zh
 ```
 
 ## wikispecies
@@ -239,10 +243,10 @@ res$common_names[1:3]
 #> 
 #> [[3]]
 #> [[3]]$name
-#> [1] "Apfel"
+#> [1] "jabloň domácí"
 #> 
 #> [[3]]$language
-#> [1] "Deutsch"
+#> [1] "čeština"
 ```
 
 higher level
@@ -252,39 +256,31 @@ higher level
 res <- wt_wikispecies("Malus domestica")
 res$classification
 #> # A tibble: 8 x 2
-#>          rank          name
-#>         <chr>         <chr>
-#> 1 Superregnum     Eukaryota
-#> 2      Regnum       Plantae
-#> 3      Cladus   Angiosperms
-#> 4      Cladus      Eudicots
-#> 5      Cladus Core eudicots
-#> 6      Cladus        Rosids
-#> 7      Cladus    Eurosids I
-#> 8        Ordo       Rosales
+#>   rank        name         
+#>   <chr>       <chr>        
+#> 1 Superregnum Eukaryota    
+#> 2 Regnum      Plantae      
+#> 3 Cladus      Angiosperms  
+#> 4 Cladus      Eudicots     
+#> 5 Cladus      Core eudicots
+#> 6 Cladus      Rosids       
+#> 7 Cladus      Eurosids I   
+#> 8 Ordo        Rosales
 res$common_names
-#> # A tibble: 19 x 2
-#>               name   language
-#>              <chr>      <chr>
-#>  1          Ябълка  български
-#>  2    Poma, pomera     català
-#>  3           Apfel    Deutsch
-#>  4     Aed-õunapuu      eesti
-#>  5           Μηλιά   Ελληνικά
-#>  6           Apple    English
-#>  7         Manzano    español
-#>  8           Pomme   français
-#>  9           Melâr     furlan
-#> 10        사과나무     한국어
-#> 11          ‘Āpala    Hawaiʻi
-#> 12            Melo   italiano
-#> 13           Aapel Nordfriisk
-#> 14  Maçã, Macieira  português
-#> 15 Яблоня домашняя    русский
-#> 16   Tarhaomenapuu      suomi
-#> 17            Elma     Türkçe
-#> 18  Яблуня домашня українська
-#> 19          Pomaro     vèneto
+#> # A tibble: 22 x 2
+#>    name          language 
+#>    <chr>         <chr>    
+#>  1 Ябълка        български
+#>  2 Poma, pomera  català   
+#>  3 jabloň domácí čeština  
+#>  4 Apfel         Deutsch  
+#>  5 Aed-õunapuu   eesti    
+#>  6 Μηλιά         Ελληνικά 
+#>  7 Apple         English  
+#>  8 Manzano       español  
+#>  9 Pomme         français 
+#> 10 Melâr         furlan   
+#> # ... with 12 more rows
 ```
 
 ## Contributors
@@ -297,6 +293,6 @@ res$common_names
 * Please [report any issues or bugs](https://github.com/ropensci/wikitaxa/issues).
 * License: MIT
 * Get citation information for `wikitaxa` in R doing `citation(package = 'wikitaxa')`
-* Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
