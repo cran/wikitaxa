@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Scott Chamberlain" />
 
-<meta name="date" content="2018-10-19" />
+<meta name="date" content="2020-06-28" />
 
 <title>Introduction to the wikitaxa package</title>
 
@@ -81,8 +81,6 @@ overflow: auto;
 margin-left: 2%;
 position: fixed;
 border: 1px solid #ccc;
-webkit-border-radius: 6px;
-moz-border-radius: 6px;
 border-radius: 6px;
 }
 
@@ -110,9 +108,14 @@ font-size: 12px;
 .tocify-subheader .tocify-subheader {
 text-indent: 30px;
 }
-
 .tocify-subheader .tocify-subheader .tocify-subheader {
 text-indent: 40px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 50px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 60px;
 }
 
 .tocify .tocify-item > a, .tocify .nav-list .nav-header {
@@ -516,13 +519,13 @@ float: none;
 
           item.append($("<a/>", {
 
-            "text": self.text()
+            "html": self.html()
 
           }));
 
         } else {
 
-          item.text(self.text());
+          item.html(self.html());
 
         }
 
@@ -1339,9 +1342,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -1355,7 +1356,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1366,50 +1366,73 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -1423,6 +1446,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1458,8 +1487,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -1468,6 +1495,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -1486,8 +1523,8 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Introduction to the wikitaxa package</h1>
-<h4 class="author"><em>Scott Chamberlain</em></h4>
-<h4 class="date"><em>2018-10-19</em></h4>
+<h4 class="author">Scott Chamberlain</h4>
+<h4 class="date">2020-06-28</h4>
 
 </div>
 
@@ -1530,12 +1567,22 @@ div.tocify {
 <p>CRAN version</p>
 <pre class="r"><code>install.packages(&quot;wikitaxa&quot;)</code></pre>
 <p>Dev version</p>
-<pre class="r"><code>devtools::install_github(&quot;ropensci/wikitaxa&quot;)</code></pre>
+<pre class="r"><code>remotes::install_github(&quot;ropensci/wikitaxa&quot;)</code></pre>
 <pre class="r"><code>library(&quot;wikitaxa&quot;)</code></pre>
 </div>
 <div id="wiki-data" class="section level2">
 <h2>wiki data</h2>
-<pre class="r"><code>wt_data(&quot;Poa annua&quot;)</code></pre>
+<pre class="r"><code>z &lt;- wt_data(&quot;Poa annua&quot;)
+names(z)
+#&gt; [1] &quot;labels&quot;       &quot;descriptions&quot; &quot;aliases&quot;      &quot;sitelinks&quot;    &quot;claims&quot;
+head(z$labels)
+#&gt;   language            value
+#&gt; 1       pt        Poa annua
+#&gt; 2       is   Varpasveifgras
+#&gt; 3       pl Wiechlina roczna
+#&gt; 4       fr   Pâturin annuel
+#&gt; 5       es        Poa annua
+#&gt; 6       en        Poa annua</code></pre>
 <p>Get a Wikidata ID</p>
 <pre class="r"><code>wt_data_id(&quot;Mimulus foliatus&quot;)
 #&gt; [1] &quot;Q6495130&quot;
@@ -1548,7 +1595,7 @@ div.tocify {
 <pre class="r"><code>pg &lt;- wt_wiki_page(&quot;https://en.wikipedia.org/wiki/Malus_domestica&quot;)
 res &lt;- wt_wiki_page_parse(pg)
 res$iwlinks
-#&gt; [1] &quot;https://commons.wikimedia.org/wiki/Category:apples&quot;         
+#&gt; [1] &quot;https://commons.wikimedia.org/wiki/Category:Apples&quot;         
 #&gt; [2] &quot;https://commons.wikimedia.org/wiki/Category:Apple_cultivars&quot;
 #&gt; [3] &quot;https://www.wikidata.org/wiki/Q158657&quot;                      
 #&gt; [4] &quot;https://www.wikidata.org/wiki/Q18674606&quot;                    
@@ -1563,18 +1610,178 @@ res$common_names
 #&gt; 1 Apple en
 res$classification
 #&gt; # A tibble: 3 x 2
-#&gt;   rank       name        
-#&gt;   &lt;chr&gt;      &lt;chr&gt;       
-#&gt; 1 plainlinks &quot;&quot;          
-#&gt; 2 species    M. pumila   
-#&gt; 3 binomial   Malus pumila</code></pre>
+#&gt;   rank       name             
+#&gt;   &lt;chr&gt;      &lt;chr&gt;            
+#&gt; 1 plainlinks &quot;&quot;               
+#&gt; 2 binomial   &quot;Malus domestica&quot;
+#&gt; 3 &lt;NA&gt;       &quot;&quot;</code></pre>
 <p>choose a wikipedia language</p>
 <pre class="r"><code># French
 wt_wikipedia(name = &quot;Malus domestica&quot;, wiki = &quot;fr&quot;)
+#&gt; $langlinks
+#&gt; # A tibble: 60 x 5
+#&gt;    lang   url                                   langname   autonym    `*`       
+#&gt;    &lt;chr&gt;  &lt;chr&gt;                                 &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     
+#&gt;  1 als    https://als.wikipedia.org/wiki/Kultu… Alemannis… Alemannis… Kulturapf…
+#&gt;  2 am     https://am.wikipedia.org/wiki/%E1%89… amharique  አማርኛ       ቱፋሕ       
+#&gt;  3 ast    https://ast.wikipedia.org/wiki/Malus… asturien   asturianu  Malus dom…
+#&gt;  4 az     https://az.wikipedia.org/wiki/M%C9%9… azéri      azərbayca… Mədəni al…
+#&gt;  5 bat-s… https://bat-smg.wikipedia.org/wiki/V… Samogitian žemaitėška Vuobelės  
+#&gt;  6 bg     https://bg.wikipedia.org/wiki/%D0%94… bulgare    български  Домашна я…
+#&gt;  7 bpy    https://bpy.wikipedia.org/wiki/%E0%A… bishnupri… বিষ্ণুপ্র…    আপেল      
+#&gt;  8 ca     https://ca.wikipedia.org/wiki/Pomera… catalan    català     Pomera co…
+#&gt;  9 cs     https://cs.wikipedia.org/wiki/Jablo%… tchèque    čeština    Jabloň do…
+#&gt; 10 csb    https://csb.wikipedia.org/wiki/Dom%C… kachoube   kaszëbsczi Domôcô ja…
+#&gt; # … with 50 more rows
+#&gt; 
+#&gt; $externallinks
+#&gt;  [1] &quot;http://www.cabi-publishing.org/pdf/Books/0851995926/0851995926_Chap01.pdf&quot;                 
+#&gt;  [2] &quot;http://www.umass.edu/fruitadvisor/fruitnotes/ontheorigin.pdf&quot;                              
+#&gt;  [3] &quot;http://www.applegenome.org&quot;                                                                
+#&gt;  [4] &quot;http://societeradio-canada.info/emissions/les_annees_lumiere/2010-2011/&quot;                   
+#&gt;  [5] &quot;http://www.nature.com/ng/journal/vaop/ncurrent/full/ng.654.html&quot;                           
+#&gt;  [6] &quot;https://gallica.bnf.fr/ark:/12148/bpt6k28582v&quot;                                             
+#&gt;  [7] &quot;http://worldcat.org/issn/1471-2229&amp;lang=fr&quot;                                                
+#&gt;  [8] &quot;https://www.ncbi.nlm.nih.gov/pubmed/26924309&quot;                                              
+#&gt;  [9] &quot;https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4770685&quot;                                      
+#&gt; [10] &quot;https://dx.doi.org/10.1186%2Fs12870-016-0739-y&quot;                                            
+#&gt; [11] &quot;https://doi.org/10.1186/s12870-016-0739-y&quot;                                                 
+#&gt; [12] &quot;http://www.hamblenne.be/LISTE_RGF.pdf&quot;                                                     
+#&gt; [13] &quot;http://www.arcticapples.com/blog/john/demystifying-arctic-apples#.UaeX-Jzjmw5&quot;             
+#&gt; [14] &quot;http://www.cctec.cornell.edu/plants/GENEVA-Apple-Rootstocks-Comparison-Chart-120911.pdf&quot;   
+#&gt; [15] &quot;https://commons.wikimedia.org/wiki/Category:Malus_domestica?uselang=fr&quot;                    
+#&gt; [16] &quot;http://www.tela-botanica.org/page:eflore&quot;                                                  
+#&gt; [17] &quot;http://www.tela-botanica.org/bdtfx-nn-40744&quot;                                               
+#&gt; [18] &quot;http://www.cbif.gc.ca/acp/fra/siti/regarder?tsn=516655&quot;                                    
+#&gt; [19] &quot;http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&amp;search_value=516655&quot;      
+#&gt; [20] &quot;http://www.cbif.gc.ca/acp/fra/siti/regarder?tsn=25262&quot;                                     
+#&gt; [21] &quot;http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&amp;search_value=25262&quot;       
+#&gt; [22] &quot;http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?lin=s&amp;p=has_linkout&amp;id=3750&quot;       
+#&gt; [23] &quot;http://www.ars-grin.gov/&quot;                                                                  
+#&gt; [24] &quot;https://npgsweb.ars-grin.gov/gringlobal/taxonomydetail.aspx?104681&quot;                        
+#&gt; [25] &quot;https://www.biolib.cz/en/&quot;                                                                 
+#&gt; [26] &quot;https://www.biolib.cz/en/taxon/id39552/&quot;                                                   
+#&gt; [27] &quot;http://inpn.mnhn.fr/isb/espece/cd_nom/107207&quot;                                              
+#&gt; [28] &quot;http://www.bmlisieux.com/normandie/roblet.htm&quot;                                             
+#&gt; [29] &quot;http://site.voila.fr/babadubonsai/docum/docmal.html&quot;                                       
+#&gt; [30] &quot;http://www.fruitiers.net&quot;                                                                  
+#&gt; [31] &quot;http://www.inra.fr/hyppz/CULTURES/3c---003.htm&quot;                                            
+#&gt; [32] &quot;http://cat.inist.fr/?aModele=afficheN&amp;cpsidt=15506238&quot;                                     
+#&gt; [33] &quot;http://www.omafra.gov.on.ca/french/crops/facts/98-014.htm&quot;                                 
+#&gt; [34] &quot;http://www.gardenaction.co.uk/fruit_veg_diary/fruit_veg_mini_project_september_2_apple.asp&quot;
+#&gt; 
+#&gt; $common_names
+#&gt; # A tibble: 1 x 2
+#&gt;   name               language
+#&gt;   &lt;chr&gt;              &lt;chr&gt;   
+#&gt; 1 Pommier domestique fr      
+#&gt; 
+#&gt; $classification
+#&gt; # A tibble: 0 x 0
+#&gt; 
+#&gt; $synonyms
+#&gt; list()
 # Slovak
 wt_wikipedia(name = &quot;Malus domestica&quot;, wiki = &quot;sk&quot;)
+#&gt; $langlinks
+#&gt; # A tibble: 60 x 5
+#&gt;    lang   url                               langname        autonym    `*`      
+#&gt;    &lt;chr&gt;  &lt;chr&gt;                             &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;    
+#&gt;  1 als    https://als.wikipedia.org/wiki/K… Alemannisch     Alemannis… Kulturap…
+#&gt;  2 am     https://am.wikipedia.org/wiki/%E… amharčina       አማርኛ       ቱፋሕ      
+#&gt;  3 ast    https://ast.wikipedia.org/wiki/M… astúrčina       asturianu  Malus do…
+#&gt;  4 az     https://az.wikipedia.org/wiki/M%… azerbajdžančina azərbayca… Mədəni a…
+#&gt;  5 bat-s… https://bat-smg.wikipedia.org/wi… Samogitian      žemaitėška Vuobelės 
+#&gt;  6 bg     https://bg.wikipedia.org/wiki/%D… bulharčina      български  Домашна …
+#&gt;  7 bpy    https://bpy.wikipedia.org/wiki/%… bišnuprijskoma… বিষ্ণুপ্র…    আপেল     
+#&gt;  8 ca     https://ca.wikipedia.org/wiki/Po… katalánčina     català     Pomera c…
+#&gt;  9 cs     https://cs.wikipedia.org/wiki/Ja… čeština         čeština    Jabloň d…
+#&gt; 10 csb    https://csb.wikipedia.org/wiki/D… kašubčina       kaszëbsczi Domôcô j…
+#&gt; # … with 50 more rows
+#&gt; 
+#&gt; $externallinks
+#&gt; list()
+#&gt; 
+#&gt; $common_names
+#&gt; # A tibble: 1 x 2
+#&gt;   name          language
+#&gt;   &lt;chr&gt;         &lt;chr&gt;   
+#&gt; 1 Jabloň domáca sk      
+#&gt; 
+#&gt; $classification
+#&gt; # A tibble: 0 x 0
+#&gt; 
+#&gt; $synonyms
+#&gt; list()
 # Vietnamese
-wt_wikipedia(name = &quot;Malus domestica&quot;, wiki = &quot;vi&quot;)</code></pre>
+wt_wikipedia(name = &quot;Malus domestica&quot;, wiki = &quot;vi&quot;)
+#&gt; $langlinks
+#&gt; # A tibble: 60 x 5
+#&gt;    lang     url                                 langname    autonym   `*`       
+#&gt;    &lt;chr&gt;    &lt;chr&gt;                               &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     
+#&gt;  1 als      https://als.wikipedia.org/wiki/Kul… Alemannisch Alemanni… Kulturapf…
+#&gt;  2 am       https://am.wikipedia.org/wiki/%E1%… Tiếng Amha… አማርኛ      ቱፋሕ       
+#&gt;  3 ast      https://ast.wikipedia.org/wiki/Mal… Tiếng Astu… asturianu Malus dom…
+#&gt;  4 az       https://az.wikipedia.org/wiki/M%C9… Tiếng Azer… azərbayc… Mədəni al…
+#&gt;  5 zh-min-… https://zh-min-nan.wikipedia.org/w… Chinese (M… Bân-lâm-… Phōng-kó-…
+#&gt;  6 bg       https://bg.wikipedia.org/wiki/%D0%… Tiếng Bulg… български Домашна я…
+#&gt;  7 ca       https://ca.wikipedia.org/wiki/Pome… Tiếng Cata… català    Pomera co…
+#&gt;  8 cs       https://cs.wikipedia.org/wiki/Jabl… Tiếng Séc   čeština   Jabloň do…
+#&gt;  9 da       https://da.wikipedia.org/wiki/Almi… Tiếng Đan … dansk     Almindeli…
+#&gt; 10 de       https://de.wikipedia.org/wiki/Kult… Tiếng Đức   Deutsch   Kulturapf…
+#&gt; # … with 50 more rows
+#&gt; 
+#&gt; $externallinks
+#&gt;  [1] &quot;http://biology.umaine.edu/Amelanchier/Rosaceae_2007.pdf&quot;                                       
+#&gt;  [2] &quot;//dx.doi.org/10.1007%2Fs00606-007-0539-9&quot;                                                      
+#&gt;  [3] &quot;https://npgsweb.ars-grin.gov/gringlobal/taxonomydetail.aspx?410495&quot;                            
+#&gt;  [4] &quot;https://npgsweb.ars-grin.gov/gringlobal/taxonomydetail.aspx?30530&quot;                             
+#&gt;  [5] &quot;http://www.uga.edu/fruit/apple.html&quot;                                                           
+#&gt;  [6] &quot;//dx.doi.org/10.3732%2Fajb.93.3.357&quot;                                                           
+#&gt;  [7] &quot;http://www.plosgenetics.org/article/info:doi%2F10.1371%2Fjournal.pgen.1002703&quot;                 
+#&gt;  [8] &quot;//www.ncbi.nlm.nih.gov/pmc/articles/PMC3349737&quot;                                                
+#&gt;  [9] &quot;//www.ncbi.nlm.nih.gov/pubmed/22589740&quot;                                                        
+#&gt; [10] &quot;//dx.doi.org/10.1371%2Fjournal.pgen.1002703&quot;                                                   
+#&gt; [11] &quot;http://news.sciencemag.org/sciencenow/2012/05/scienceshot-the-secret-history-o.html&quot;           
+#&gt; [12] &quot;http://www.plantpress.com/wildlife/o523-apple.php&quot;                                             
+#&gt; [13] &quot;http://cahnrsnews.wsu.edu/2010/08/29/apple-cup-rivals-contribute-to-apple-genome-sequencing/&quot;  
+#&gt; [14] &quot;http://www.nature.com/ng/journal/v42/n10/full/ng.654.html&quot;                                     
+#&gt; [15] &quot;http://www.alphagalileo.org/ViewItem.aspx?ItemId=83717&amp;CultureCode=en&quot;                         
+#&gt; [16] &quot;http://www.ornl.gov/sci/techresources/Human_Genome/project/info.shtml&quot;                         
+#&gt; [17] &quot;https://commons.wikimedia.org/wiki/Apple?uselang=vi&quot;                                           
+#&gt; [18] &quot;https://commons.wikimedia.org/wiki/Category:Malus_domestica?uselang=vi&quot;                        
+#&gt; [19] &quot;http://bachkhoatoanthu.vass.gov.vn/noidung/tudien/Lists/GiaiNghia/View_Detail.aspx?ItemID=5007&quot;
+#&gt; [20] &quot;http://www.eol.org/pages/629094&quot;                                                               
+#&gt; [21] &quot;http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3750&quot;                               
+#&gt; [22] &quot;http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&amp;search_value=516655&quot;          
+#&gt; [23] &quot;http://www.catalogueoflife.org/col/details/species/id/19538828/synonym/19539435&quot;               
+#&gt; [24] &quot;https://www.biolib.cz/cz/taxon/id39552&quot;                                                        
+#&gt; [25] &quot;https://gd.eppo.int/taxon/MABSD&quot;                                                               
+#&gt; [26] &quot;https://npgsweb.ars-grin.gov/gringlobal/taxonomydetail.aspx?id=104681&quot;                         
+#&gt; [27] &quot;http://www.ipni.org/ipni/idPlantNameSearch.do?id=726282-1&quot;                                     
+#&gt; [28] &quot;https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&amp;search_value=516655&quot;         
+#&gt; [29] &quot;https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&amp;id=3750&quot;                    
+#&gt; [30] &quot;http://www.nzor.org.nz/names/14d024a2-d821-48e3-95d8-f0dd206c70a0&quot;                             
+#&gt; [31] &quot;http://www.pfaf.org/user/Plant.aspx?LatinName=Malus+domestica&quot;                                 
+#&gt; [32] &quot;http://www.theplantlist.org/tpl1.1/record/rjp-454&quot;                                             
+#&gt; [33] &quot;http://www.plantsoftheworldonline.org/taxon/urn:lsid:ipni.org:names:726282-1&quot;                  
+#&gt; [34] &quot;http://legacy.tropicos.org/Name/27804420&quot;                                                      
+#&gt; [35] &quot;https://vicflora.rbg.vic.gov.au/flora/taxon/e41b929d-b709-4f4c-8dbe-2a9241e2342b&quot;              
+#&gt; [36] &quot;http://www.ipni.org/ipni/idPlantNameSearch.do?id=60476301-2&quot;                                   
+#&gt; [37] &quot;http://www.plantsoftheworldonline.org/taxon/urn:lsid:ipni.org:names:60476301-2&quot;                
+#&gt; [38] &quot;http://legacy.tropicos.org/Name/100473089&quot;                                                     
+#&gt; 
+#&gt; $common_names
+#&gt; # A tibble: 1 x 2
+#&gt;   name            language
+#&gt;   &lt;chr&gt;           &lt;chr&gt;   
+#&gt; 1 Malus domestica vi      
+#&gt; 
+#&gt; $classification
+#&gt; # A tibble: 0 x 0
+#&gt; 
+#&gt; $synonyms
+#&gt; list()</code></pre>
 <p>search</p>
 <pre class="r"><code>wt_wikipedia_search(query = &quot;Pinus&quot;)
 #&gt; $batchcomplete
@@ -1591,25 +1798,62 @@ wt_wikipedia(name = &quot;Malus domestica&quot;, wiki = &quot;vi&quot;)</code></
 #&gt; $query
 #&gt; $query$searchinfo
 #&gt; $query$searchinfo$totalhits
-#&gt; [1] 3144
+#&gt; [1] 3374
+#&gt; 
+#&gt; $query$searchinfo$suggestion
+#&gt; [1] &quot;penis&quot;
+#&gt; 
+#&gt; $query$searchinfo$suggestionsnippet
+#&gt; [1] &quot;penis&quot;
 #&gt; 
 #&gt; 
 #&gt; $query$search
 #&gt; # A tibble: 10 x 7
-#&gt;       ns title     pageid  size wordcount snippet              timestamp  
-#&gt;  * &lt;int&gt; &lt;chr&gt;      &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;      
-#&gt;  1     0 Pine      3.94e4 28676      3298 &quot;A pine is any coni… 2018-10-13…
-#&gt;  2     0 Pinus po… 5.33e5 28882      2778 &quot;misidentified it a… 2018-08-16…
-#&gt;  3     0 Pinus st… 4.64e5 28962      3578 &quot;3 ft) tall &amp;amp; w… 2018-10-10…
-#&gt;  4     0 Pinus co… 5.08e5 21733      2529 &quot;all pines (member … 2018-09-05…
-#&gt;  5     0 Pinus lo… 6.50e5 12244      1379 &quot;sometimes form den… 2018-09-04…
-#&gt;  6     0 List of … 4.49e5 18644      1659 &quot;&lt;span class=\&quot;sear… 2018-10-06…
-#&gt;  7     0 Bristlec… 2.16e5 16057      1660 &quot;bad soils. One of … 2018-09-14…
-#&gt;  8     0 Pinus fl… 4.64e5 13615      1447 &quot;and soft. &lt;span cl… 2018-09-05…
-#&gt;  9     0 Pinus la… 4.59e5 10226      1197 &quot;Fire affected this… 2018-09-05…
-#&gt; 10     0 Pinus ge… 1.38e6  6391       638 &quot;kilogram. &lt;span cl… 2018-08-17…</code></pre>
+#&gt;       ns title     pageid  size wordcount snippet                    timestamp  
+#&gt;    &lt;int&gt; &lt;chr&gt;      &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                      &lt;chr&gt;      
+#&gt;  1     0 Pine       39389 36555      4058 &quot;A pine is any conifer in… 2020-06-26…
+#&gt;  2     0 Pinus po… 532941 31087      3069 &quot;misidentified it as &lt;spa… 2020-06-19…
+#&gt;  3     0 Pinus co… 507717 20486      2343 &quot;all pines (member specie… 2020-05-25…
+#&gt;  4     0 Pinus je… 463015  9130      1008 &quot;long, with a large (15 t… 2019-12-22…
+#&gt;  5     0 Pinus st… 464301 31478      3815 &quot;3 ft) tall &amp;amp; wide. M… 2020-06-22…
+#&gt;  6     0 Pinus re… 507802  7501       783 &quot;&amp;quot;&lt;span class=\&quot;sear… 2020-05-08…
+#&gt;  7     0 Pinus lo… 649634 15408      1741 &quot;sometimes form dense for… 2020-04-14…
+#&gt;  8     0 Pinus la… 459402 11464      1338 &quot;Fire affected this speci… 2020-01-15…
+#&gt;  9     0 Pinus ni… 438963 11947      1421 &quot;hypodermal cells. P. nig… 2020-04-03…
+#&gt; 10     0 Pinus mu… 438946 11964       901 &quot;encyclopedia) is still r… 2020-06-17…</code></pre>
 <p>search supports languages</p>
-<pre class="r"><code>wt_wikipedia_search(query = &quot;Pinus&quot;, wiki = &quot;fr&quot;)</code></pre>
+<pre class="r"><code>wt_wikipedia_search(query = &quot;Pinus&quot;, wiki = &quot;fr&quot;)
+#&gt; $batchcomplete
+#&gt; [1] &quot;&quot;
+#&gt; 
+#&gt; $continue
+#&gt; $continue$sroffset
+#&gt; [1] 10
+#&gt; 
+#&gt; $continue$continue
+#&gt; [1] &quot;-||&quot;
+#&gt; 
+#&gt; 
+#&gt; $query
+#&gt; $query$searchinfo
+#&gt; $query$searchinfo$totalhits
+#&gt; [1] 990
+#&gt; 
+#&gt; 
+#&gt; $query$search
+#&gt; # A tibble: 10 x 7
+#&gt;       ns title     pageid  size wordcount snippet                    timestamp  
+#&gt;    &lt;int&gt; &lt;chr&gt;      &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                      &lt;chr&gt;      
+#&gt;  1     0 Pin (pl…   89798 83647      9325 &quot;&lt;span class=\&quot;searchmatc… 2020-05-23…
+#&gt;  2     0 Pinus p…  121544 31274      3892 &quot;&lt;span class=\&quot;searchmatc… 2020-04-30…
+#&gt;  3     0 Pinus c…   98421  8237       959 &quot;&lt;span class=\&quot;searchmatc… 2019-05-30…
+#&gt;  4     0 Pinus n…  950330 26623      3013 &quot;recycler}}. &lt;span class=… 2020-03-30…
+#&gt;  5     0 Pin syl…  121562 13725      1611 &quot;&lt;span class=\&quot;searchmatc… 2020-03-22…
+#&gt;  6     0 Pinus h…  117280 22257      2671 &quot;&lt;span class=\&quot;searchmatc… 2020-05-07…
+#&gt;  7     0 Pin par…  138378  8763       916 &quot;&lt;span class=\&quot;searchmatc… 2020-04-26…
+#&gt;  8     0 Pinus s…  776950 11662      1628 &quot;les articles homonymes, … 2020-04-14…
+#&gt;  9     0 Pinus m… 2480854 21747      2310 &quot;&lt;span class=\&quot;searchmatc… 2019-02-25…
+#&gt; 10     0 Pinus u… 3208429  6316       720 &quot;significations, voir Pin… 2020-03-09…</code></pre>
 </div>
 <div id="wikicommons" class="section level2">
 <h2>wikicommons</h2>
@@ -1645,20 +1889,20 @@ res$classification
 #&gt; # A tibble: 15 x 2
 #&gt;    rank       name            
 #&gt;    &lt;chr&gt;      &lt;chr&gt;           
-#&gt;  1 Domain     Eukaryota       
-#&gt;  2 unranked   Archaeplastida  
-#&gt;  3 Regnum     Plantae         
-#&gt;  4 Cladus     angiosperms     
-#&gt;  5 Cladus     eudicots        
-#&gt;  6 Cladus     core eudicots   
-#&gt;  7 Cladus     superrosids     
-#&gt;  8 Cladus     rosids          
-#&gt;  9 Cladus     eurosids II     
-#&gt; 10 Ordo       Malvales        
-#&gt; 11 Familia    Malvaceae       
-#&gt; 12 Subfamilia Malvoideae      
-#&gt; 13 Tribus     Hibisceae       
-#&gt; 14 Genus      Abelmoschus     
+#&gt;  1 Domain     &quot;Eukaryota&quot;     
+#&gt;  2 unranked   &quot;Archaeplastida&quot;
+#&gt;  3 Regnum     &quot;Plantae&quot;       
+#&gt;  4 Cladus     &quot;angiosperms&quot;   
+#&gt;  5 Cladus     &quot;eudicots&quot;      
+#&gt;  6 Cladus     &quot;core eudicots&quot; 
+#&gt;  7 Cladus     &quot;superrosids&quot;   
+#&gt;  8 Cladus     &quot;rosids&quot;        
+#&gt;  9 Cladus     &quot;eurosids II&quot;   
+#&gt; 10 Ordo       &quot;Malvales&quot;      
+#&gt; 11 Familia    &quot;Malvaceae&quot;     
+#&gt; 12 Subfamilia &quot;Malvoideae&quot;    
+#&gt; 13 Tribus     &quot;Hibisceae&quot;     
+#&gt; 14 Genus      &quot;Abelmoschus&quot;   
 #&gt; 15 Authority  &quot; Medik. (1787)&quot;
 res$common_names
 #&gt; # A tibble: 19 x 2
@@ -1667,18 +1911,18 @@ res$common_names
 #&gt;  1 okra             en      
 #&gt;  2 مسكي             ar      
 #&gt;  3 Abelmoş          az      
-#&gt;  4 Ibiškovec        cs      
-#&gt;  5 Bisameibisch     de      
-#&gt;  6 Okrat            fi      
-#&gt;  7 Abelmosco        gl      
-#&gt;  8 Abelmošus        hr      
-#&gt;  9 Ybiškė           lt      
-#&gt; 10 അബെൽമോസ്കസ്        ml      
-#&gt; 11 Абельмош         mrj     
-#&gt; 12 Abelmoskusslekta nn      
-#&gt; 13 Piżmian          pl      
-#&gt; 14 Абельмош         ru      
-#&gt; 15 موري             sd      
+#&gt;  4 Bamja            bs      
+#&gt;  5 Ibiškovec        cs      
+#&gt;  6 Bisameibisch     de      
+#&gt;  7 Okrat            fi      
+#&gt;  8 Abelmosco        gl      
+#&gt;  9 Abelmošus        hr      
+#&gt; 10 Ybiškė           lt      
+#&gt; 11 അബെൽമോസ്കസ്        ml      
+#&gt; 12 Абельмош         mrj     
+#&gt; 13 Abelmoskusslekta nn      
+#&gt; 14 Piżmian          pl      
+#&gt; 15 Абельмош         ru      
 #&gt; 16 Okrasläktet      sv      
 #&gt; 17 Абельмош         udm     
 #&gt; 18 Chi Vông vang    vi      
@@ -1699,23 +1943,23 @@ res$common_names
 #&gt; $query
 #&gt; $query$searchinfo
 #&gt; $query$searchinfo$totalhits
-#&gt; [1] 264
+#&gt; [1] 270
 #&gt; 
 #&gt; 
 #&gt; $query$search
 #&gt; # A tibble: 10 x 7
-#&gt;       ns title        pageid  size wordcount snippet            timestamp 
-#&gt;  * &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;     
-#&gt;  1     0 Pinus        8.21e4  4154       336 &quot;Ordo: Pinales • … 2017-05-2…
-#&gt;  2     0 Pinus × sc…  1.19e7   634        67 &quot;Genus: &lt;span cla… 2015-01-2…
-#&gt;  3     0 Pinus nigra  6.47e4  7743       501 &quot;Ordo: Pinales • … 2018-03-0…
-#&gt;  4     0 Spinus pin…  7.03e5  1560       243 &quot;Genus: Spinus • … 2017-07-3…
-#&gt;  5     0 Pinus coop…  8.85e6   564        64 &quot;Familia: Pinacea… 2014-12-1…
-#&gt;  6     0 Pinus dist…  2.95e7 25972        92 &quot;pines, soft pine… 2018-01-1…
-#&gt;  7     0 Pinus herr…  3.00e7   206        28 &quot;Classis: Pinopsi… 2015-01-2…
-#&gt;  8     0 Setophaga …  3.53e5  1867       213 &quot;Species: Setopha… 2018-04-2…
-#&gt;  9     0 Pinus tabu…  2.36e5  1739       145 &quot;Familia: Pinacea… 2014-11-2…
-#&gt; 10     0 Pinus maxi…  2.04e7   485        60 &quot;Familia: Pinacea… 2012-07-2…</code></pre>
+#&gt;       ns title                    pageid size  wordcount snippet timestamp      
+#&gt;    &lt;int&gt; &lt;chr&gt;                     &lt;int&gt; &lt;lgl&gt;     &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;          
+#&gt;  1     0 Pinus sylvestris           9066 NA            0 &quot;&quot;      2020-05-13T19:…
+#&gt;  2     0 Pinus ponderosa          250435 NA            0 &quot;&quot;      2020-04-18T15:…
+#&gt;  3     0 Pinus nigra               64703 NA            0 &quot;&quot;      2018-03-06T10:…
+#&gt;  4     0 Pinus                     82071 NA            0 &quot;&quot;      2017-05-28T10:…
+#&gt;  5     0 Pinus mugo               132442 NA            0 &quot;&quot;      2019-07-26T09:…
+#&gt;  6     0 Rogów Arboretum        10563490 NA            0 &quot;&quot;      2020-01-01T13:…
+#&gt;  7     0 Pinus contorta           186918 NA            0 &quot;&quot;      2020-01-19T19:…
+#&gt;  8     0 Anacortes Community F…  2989013 NA            0 &quot;&quot;      2014-12-10T15:…
+#&gt;  9     0 Pinus halepensis         172181 NA            0 &quot;&quot;      2018-05-05T10:…
+#&gt; 10     0 Pinus brutia             139389 NA            0 &quot;&quot;      2014-11-23T11:…</code></pre>
 </div>
 <div id="wikispecies" class="section level2">
 <h2>wikispecies</h2>
@@ -1761,19 +2005,19 @@ res$classification
 #&gt; 8 Ordo        Rosales
 res$common_names
 #&gt; # A tibble: 22 x 2
-#&gt;    name          language 
-#&gt;    &lt;chr&gt;         &lt;chr&gt;    
-#&gt;  1 Ябълка        български
-#&gt;  2 Poma, pomera  català   
-#&gt;  3 jabloň domácí čeština  
-#&gt;  4 Apfel         Deutsch  
-#&gt;  5 Aed-õunapuu   eesti    
-#&gt;  6 Μηλιά         Ελληνικά 
-#&gt;  7 Apple         English  
-#&gt;  8 Manzano       español  
-#&gt;  9 Pomme         français 
-#&gt; 10 Melâr         furlan   
-#&gt; # ... with 12 more rows</code></pre>
+#&gt;    name          language  
+#&gt;    &lt;chr&gt;         &lt;chr&gt;     
+#&gt;  1 Ябълка        български 
+#&gt;  2 Poma, pomera  català    
+#&gt;  3 jabloň domácí čeština   
+#&gt;  4 Apfel         Deutsch   
+#&gt;  5 Μηλιά         Ελληνικά  
+#&gt;  6 Apple         English   
+#&gt;  7 Manzano       español   
+#&gt;  8 Aed-õunapuu   eesti     
+#&gt;  9 Tarhaomenapuu suomi     
+#&gt; 10 Aapel         Nordfriisk
+#&gt; # … with 12 more rows</code></pre>
 <p>search</p>
 <pre class="r"><code>wt_wikispecies_search(query = &quot;Pinus&quot;)
 #&gt; $batchcomplete
@@ -1790,23 +2034,23 @@ res$common_names
 #&gt; $query
 #&gt; $query$searchinfo
 #&gt; $query$searchinfo$totalhits
-#&gt; [1] 417
+#&gt; [1] 515
 #&gt; 
 #&gt; 
 #&gt; $query$search
 #&gt; # A tibble: 10 x 7
-#&gt;       ns title     pageid  size wordcount snippet              timestamp  
-#&gt;  * &lt;int&gt; &lt;chr&gt;      &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;      
-#&gt;  1     0 Pinus      17362  1570       281 &quot;Familia: Pinaceae … 2017-02-08…
-#&gt;  2     0 Pinus ni… 327138  1412       127 &quot;Familia: Pinaceae … 2016-03-13…
-#&gt;  3     0 Pinus su… 300923   318        27 &quot;Pinaceae  Genus: &lt;… 2017-02-08…
-#&gt;  4     0 Pinus cl…  45047  1520       208 &quot;Pinaceae Genus: &lt;s… 2017-08-16…
-#&gt;  5     0 Pinus re…  45082  1195       165 &quot;Pinaceae  Genus: &lt;… 2016-03-13…
-#&gt;  6     0 Pinus se… 300935   623        68 &quot;Pinaceae  Genus: &lt;… 2017-03-12…
-#&gt;  7     0 Pinus go… 260795   594        61 &quot;Pinaceae  Genus: &lt;… 2016-08-13…
-#&gt;  8     0 Pinus th…  73542   999       140 &quot;Genus: &lt;span class… 2017-07-06…
-#&gt;  9     0 Pinus su… 300938   718        94 &quot;Familia: Pinaceae … 2017-03-12…
-#&gt; 10     0 Pinus sa…  45084   644        80 &quot;Genus: &lt;span class… 2015-10-31…</code></pre>
+#&gt;       ns title         pageid  size wordcount snippet                timestamp  
+#&gt;    &lt;int&gt; &lt;chr&gt;          &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                  &lt;chr&gt;      
+#&gt;  1     0 Pinus         1.74e4  5737       784 &quot;Familia: Pinaceae Ge… 2020-06-06…
+#&gt;  2     0 Pinus halepe… 4.51e4  4047       580 &quot;Pinaceae Genus: &lt;spa… 2019-12-20…
+#&gt;  3     0 Pinus pinea   4.51e4  1949       406 &quot;Familia: Pinaceae Ge… 2019-10-19…
+#&gt;  4     0 Pinus veitch… 1.34e6  1450       181 &quot;Familia: Pinaceae Ge… 2019-07-19…
+#&gt;  5     0 Pinus pumila  7.35e4  1395       189 &quot;Pinaceae Genus: &lt;spa… 2019-07-14…
+#&gt;  6     0 Pinus subg. … 3.01e5   358        27 &quot;Pinaceae Genus: &lt;spa… 2019-11-24…
+#&gt;  7     0 Pinus clausa  4.50e4  1552       208 &quot;Pinaceae Genus: &lt;spa… 2019-08-15…
+#&gt;  8     0 Pinus pseudo… 1.48e6  2114       310 &quot;Genus: &lt;span class=\… 2020-05-21…
+#&gt;  9     0 Pinus pinast… 1.32e6  2764       379 &quot;Pinaceae Genus: &lt;spa… 2019-12-20…
+#&gt; 10     0 Pinus nigra … 3.27e5  1799       138 &quot;Genus: &lt;span class=\… 2020-03-02…</code></pre>
 </div>
 
 
@@ -1827,6 +2071,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

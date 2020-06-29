@@ -8,11 +8,20 @@
 \usage{
 wt_wikipedia(name, wiki = "en", utf8 = TRUE, ...)
 
-wt_wikipedia_parse(page, types = c("langlinks", "iwlinks",
-  "externallinks", "common_names", "classification"), tidy = FALSE)
+wt_wikipedia_parse(
+  page,
+  types = c("langlinks", "iwlinks", "externallinks", "common_names", "classification"),
+  tidy = FALSE
+)
 
-wt_wikipedia_search(query, wiki = "en", limit = 10, offset = 0,
-  utf8 = TRUE, ...)
+wt_wikipedia_search(
+  query,
+  wiki = "en",
+  limit = 10,
+  offset = 0,
+  utf8 = TRUE,
+  ...
+)
 }
 \arguments{
 \item{name}{(character) Wiki name - as a page title, must be length 1}
@@ -72,15 +81,17 @@ wt_wikipedia_parse(pg)
 wt_wikipedia_parse(pg, tidy = TRUE)
 
 # search wikipedia
-wt_wikipedia_search(query = "Pinus")
-wt_wikipedia_search(query = "Pinus", wiki = "fr")
-wt_wikipedia_search(query = "Pinus", wiki = "br")
+# FIXME: utf=FALSE for now until curl::curl_escape fix 
+# https://github.com/jeroen/curl/issues/228
+wt_wikipedia_search(query = "Pinus", utf8=FALSE)
+wt_wikipedia_search(query = "Pinus", wiki = "fr", utf8=FALSE)
+wt_wikipedia_search(query = "Pinus", wiki = "br", utf8=FALSE)
 
 ## curl options
-# wt_wikipedia_search(query = "Pinus", verbose = TRUE)
+# wt_wikipedia_search(query = "Pinus", verbose = TRUE, utf8=FALSE)
 
 ## use search results to dig into pages
-res <- wt_wikipedia_search(query = "Pinus")
+res <- wt_wikipedia_search(query = "Pinus", utf8=FALSE)
 lapply(res$query$search$title[1:3], wt_wikipedia)
 }
 }

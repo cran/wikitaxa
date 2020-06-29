@@ -70,7 +70,7 @@ install.packages("wikitaxa")
 Dev version
 
 ```{r eval=FALSE}
-devtools::install_github("ropensci/wikitaxa")
+remotes::install_github("ropensci/wikitaxa")
 ```
 
 ```{r}
@@ -79,8 +79,10 @@ library("wikitaxa")
 
 ## wiki data
 
-```{r eval=FALSE}
-wt_data("Poa annua")
+```{r}
+z <- wt_data("Poa annua")
+names(z)
+head(z$labels)
 ```
 
 Get a Wikidata ID
@@ -109,7 +111,7 @@ res$classification
 
 choose a wikipedia language
 
-```{r eval=FALSE}
+```{r}
 # French
 wt_wikipedia(name = "Malus domestica", wiki = "fr")
 # Slovak
@@ -126,7 +128,7 @@ wt_wikipedia_search(query = "Pinus")
 
 search supports languages
 
-```{r eval=FALSE}
+```{r}
 wt_wikipedia_search(query = "Pinus", wiki = "fr")
 ```
 
